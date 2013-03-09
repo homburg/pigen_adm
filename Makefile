@@ -1,2 +1,2 @@
 all: 
-	GOPATH=$(PWD) go install homburg/status_server
+	GOPATH=$(PWD) go install homburg/pigen_adm

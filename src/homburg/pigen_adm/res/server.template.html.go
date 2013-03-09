@@ -1,4 +1,4 @@
-package status_server
+package pigen_adm
 
 const ServerTemplate = `<!DOCTYPE HTML>
 <html lang="en">
@@ -16,15 +16,39 @@ const ServerTemplate = `<!DOCTYPE HTML>
 <body>
 	<div><h1>{{.}}</h1></div>
 
+	<div>
+		<h2>pigen.dk</h2>
+		<form action="" method="post" id="make_thumbnails">
+			<input type="submit" class="btn" value="Gendan billeder" />
+		</form>
+	</div>
+
 	<script type="text/javascript">
 		var checks = {
-				dropbox: ["/dropbox/status", "dropbox status", 2000, "span6"],
 				landscapeSysinfo: ["/landscape/sysinfo", "landscape sysinfo", 2000, "span8"],
-				dstat: ["/dstat", "dstat 1 10", 20000, "span6"],
-				dropboxHelp: ["/dropbox/help", "dropbox help", 2000, "span6"],
 		};
 
 		$(function () {
+
+			var $form = $("form#make_thumbnails"),
+				$button = $form.find("input:submit");
+
+			// Handle form submit
+			$form.submit(function (e) {
+
+				$button.removeClass("btn-inverse");
+				$button.addClass("disabled");
+				$button.attr("disabled", "disabled");
+
+				$.post("/action", {action: "make_thumbnails"}).always(function () {
+					$button.removeClass("disabled");
+					$button.removeAttr("disabled");
+					$button.addClass("btn-inverse");
+				});
+				e.preventDefault()
+				return false;
+			});
+
 				var $body = $(document.body),
 					pre, data;
 
