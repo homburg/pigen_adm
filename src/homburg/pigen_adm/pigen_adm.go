@@ -1,25 +1,25 @@
 package main
 
 import (
-	"fmt"
-	"log"
-	"net/http"
-	"os/exec"
-	"strings"
-	// "path/filepath"
 	"bytes"
+	"fmt"
 	"homburg/pigen_adm/res"
 	"html/template"
+	"log"
+	"net/http"
 	"os"
+	"os/exec"
+	"runtime"
+	"strings"
 )
 
 const listenAddr = "127.0.0.1:8086"
 
-var logins map[string] string
+var logins map[string]string
 var baseLogins []string
 
 func accessControl(w http.ResponseWriter, r *http.Request) bool {
-	return true;
+	return true
 }
 
 // Convert newlines to <br>
@@ -39,6 +39,11 @@ func commandToHtml(firstCmd string, cmdSegments ...string) (string, error) {
 	return outStr, nil
 }
 
+type templateData struct {
+	Hostname  string
+	GoVersion string
+}
+
 func main() {
 	// html, err := ioutil.ReadFile(filepath.Join(exePath, "server.template.html"))
 	tmpl := template.New("server")
@@ -46,7 +51,7 @@ func main() {
 
 	var buf bytes.Buffer
 	hostname, _ := os.Hostname()
-	err := tmpl.Execute(&buf, hostname)
+	err := tmpl.Execute(&buf, templateData{hostname, runtime.Version()})
 	html := buf.String()
 
 	if nil != err {
@@ -72,7 +77,7 @@ func main() {
 		}
 
 		if r.Method == "POST" {
-			action := r.FormValue("action");
+			action := r.FormValue("action")
 
 			if action == "make_thumbnails" {
 				cmd := exec.Command("sudo", "-u", "thomas", "/home/thomas/bin/make_thumbnails")
