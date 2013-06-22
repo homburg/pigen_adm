@@ -3,7 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"homburg/pigen_adm/res"
+	"github.com/homburg/pigen_adm/res"
 	"html/template"
 	"log"
 	"net/http"
@@ -47,7 +47,7 @@ type templateData struct {
 func main() {
 	// html, err := ioutil.ReadFile(filepath.Join(exePath, "server.template.html"))
 	tmpl := template.New("server")
-	template.Must(tmpl.Parse(pigen_adm.ServerTemplate))
+	template.Must(tmpl.Parse(ServerTemplate))
 
 	var buf bytes.Buffer
 	hostname, _ := os.Hostname()

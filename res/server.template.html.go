@@ -1,4 +1,4 @@
-package pigen_adm
+package res
 
 const ServerTemplate = `<!DOCTYPE HTML>
 <html lang="en">
