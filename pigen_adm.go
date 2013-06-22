@@ -47,7 +47,7 @@ type templateData struct {
 func main() {
 	// html, err := ioutil.ReadFile(filepath.Join(exePath, "server.template.html"))
 	tmpl := template.New("server")
-	template.Must(tmpl.Parse(ServerTemplate))
+	template.Must(tmpl.Parse(res.ServerTemplate))
 
 	var buf bytes.Buffer
 	hostname, _ := os.Hostname()
